@@ -1,8 +1,8 @@
 #include <malloc.h>
 #include "linkedlist.h"
+#include <stdio.h>
 
-
-int compare(int* a ,int* b);
+int compare(const int* a ,const int* b);
 int main() {
 
     LinkedList *listint =(LinkedList *)malloc(sizeof(LinkedList));
@@ -13,15 +13,24 @@ int main() {
     int* temp = &t;
     node->key = temp;
     listInsert(listint,node);
-    int k = 15;
+    int k = 15,c=13,a=16,d=14;
     int*p = &k;
     listInsertKey(listint,p);
+    p = &c;
+    listInsertKey(listint,p);
+    p = &a;
+    listInsertKey(listint,p);
+    p = &d;
+    listInsertKey(listint,p);
 
-
-    destroyList(listint);
+    listDelete(listint,node);
+    p = &c;
+    ListNode* ret = listSearch(listint,p);
+    printf("%d",*(int*)(ret->key));
+    listDestroy(listint);
     return 0;
 }
-int compare(int* const a , int* const b){
+int compare(const int* const a ,const int* const b){
     if(*a==*b) return 0;
     return *a>*b ? 1:-1;
 }

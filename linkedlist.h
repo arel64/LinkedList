@@ -16,12 +16,13 @@ typedef struct{
 
 void init(LinkedList* l,FTT compare);
 
-
-void listInsert(LinkedList*,ListNode*);
+ListNode* listInsert(LinkedList*,ListNode*);
 ListNode* listInsertKey(LinkedList*,void*);
 
+void listDelete(LinkedList*,ListNode*);
+
+ListNode* listSearch(LinkedList*,void*);
 
 
-
-void destroyList(LinkedList*);
+void listDestroy(LinkedList*);
 #endif //LINKEDLIST_LINKEDLIST_H

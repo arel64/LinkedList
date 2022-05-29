@@ -13,35 +13,51 @@ void init(LinkedList* l,FTT compare){
     l->compare = compare;
     l->head = NULL;
 }
-void listInsert(LinkedList* l,ListNode* node){
+ListNode* listInsert(LinkedList* l,ListNode* node){
     node->next = l->head;
     if(l->head != NULL){
         l->head->prev = node;
     }
     l->head = node;
     node->prev = NULL;
+    return node;
 }
 ListNode* listInsertKey(LinkedList* l ,void* key){
     ListNode* node = (ListNode*) malloc(sizeof(ListNode));
+    if(!node){
+        return NULL;
+    }
     node->key = key;
-    listInsert(l,node);
+
+    return listInsert(l,node);
 }
-void destroyList(LinkedList* l){
+void listDelete(LinkedList* l ,ListNode* p){
+    if(p->prev != NULL){
+        (p->prev)->next = p->next;
+    }else{
+        l->head = p->next;
+    }
+    if(p->next!=NULL)
+        (p->next)->prev = p->prev;
+}
+
+ListNode* listSearch(LinkedList* l,void* p){
+    ListNode* iter = l->head;
+    while(iter!=NULL && (l->compare(iter->key,p)!=0)){
+        iter = iter->next;
+    }
+    return iter;
+}
+void listDestroy(LinkedList* l){
     ListNode* iter =  l->head;
     ListNode* temp;
-    while(iter->next!=NULL)
+    while(l->head != NULL)
     {
-        temp = iter->next;
-        iter->prev = NULL;
-        iter->next = NULL;
-        iter->key  = NULL;
-        free(iter);
-        iter = temp;
-        temp = NULL;
+        temp = l->head;
+        l->head = l->head->next;
+        free(temp);
     }
-    iter->prev = NULL;
-    iter->next = NULL;
-    iter->key  = NULL;
     free(iter);
     free(l);
+    l=NULL;
 }
